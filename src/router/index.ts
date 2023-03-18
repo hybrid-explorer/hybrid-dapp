@@ -1,6 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Search from '../components/Search.vue'
 
-const routes:any[] = [
+const routes = [
+	{
+		path: '/',
+		name: 'search',
+		component: Search,
+	},
 ]
 
 const router = createRouter({

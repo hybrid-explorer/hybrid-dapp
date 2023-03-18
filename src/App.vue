@@ -13,6 +13,14 @@ import { main } from './stores/index'
 const drawer = ref(false);
 const store = main();
 
+let $indexerClient: any = inject('$indexerClient');
+
+onMounted(async () => {
+  let results = await Promise.all([
+	  $indexerClient.init(),
+  ]);
+});
+
 </script>
 
 <template>

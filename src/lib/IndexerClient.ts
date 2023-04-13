@@ -16,9 +16,13 @@ export default class OffChainClient {
 			console.log("Connected to event indexer.");
 		};
 		this.ws.onmessage = (event: any) => {
-				let message = JSON.parse(event.data);
+			let message = JSON.parse(event.data);
 			console.log(message);
-			this.store.setEvents(message.events);
+
+			switch (message.type) {
+				case 'events':
+					this.store.setEvents(message.data.events);
+			}
 		}
 	}
 
@@ -44,7 +48,7 @@ export default class OffChainClient {
     this.ws.send(JSON.stringify(msg));
   }
 
-  getEventsByAuctionIndex(account_index: string) {
+  getEventsByAuctionIndex(auction_index: string) {
     var msg = {
       type: "GetEventsByAuctionIndex",
       auction_index: parseInt(auction_index),

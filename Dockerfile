@@ -4,6 +4,7 @@ WORKDIR /usr/src/hybrid-dapp
 
 COPY . .
 
+RUN pnpm install
 RUN pnpm build
 
 EXPOSE 4173

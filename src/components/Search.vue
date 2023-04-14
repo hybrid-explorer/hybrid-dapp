@@ -104,7 +104,7 @@ async function search(event: any) {
     case 'bounty_index':
       $indexerClient.getEventsByBountyIndex(bountyIndex.value);
       break;
-    case 'canidate_hash':
+    case 'candidate_hash':
       $indexerClient.getEventsByCandidateHash(candidateHash.value);
       break;
     case 'message_id':

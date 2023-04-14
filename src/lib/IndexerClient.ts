@@ -20,11 +20,25 @@ export default class OffChainClient {
 			console.log(message);
 
 			switch (message.type) {
+				case 'status':
+					this.store.setLastBatchBlock(message.data.lastBatchBlock);
+					this.store.setLatestBlock(message.data.latestBlock);
+					break;
+
 				case 'events':
 					this.store.setEvents(message.data.events);
+					break;
 			}
 		}
 	}
+
+	getStatus() {
+		var msg = {
+			type: "GetStatus",
+    	};
+
+    this.ws.send(JSON.stringify(msg));
+  }
 
 	getEventsByAccountId(account_id: string) {
 		var msg = {
@@ -84,7 +98,7 @@ export default class OffChainClient {
   getEventsByMessageId(message_id: string) {
     var msg = {
       type: "GetEventsByMessageId",
-      message_id: parseInt(message_id),
+      message_id: message_id,
     };
 
     console.log(JSON.stringify(msg));

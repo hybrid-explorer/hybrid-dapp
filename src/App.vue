@@ -17,7 +17,7 @@ let $indexerClient: any = inject('$indexerClient');
 
 onMounted(async () => {
   let results = await Promise.all([
-	  $indexerClient.init(),
+    $indexerClient.init(),
   ]);
 
   setInterval(() => {

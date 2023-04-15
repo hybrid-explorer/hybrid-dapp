@@ -4,47 +4,47 @@ import { encodeAddress } from '@polkadot/keyring';
 import { main } from '../stores/index'
 
 export default class OffChainClient {
-	store: any;
-	vue: any;
-	ws: any;
+  store: any;
+  vue: any;
+  ws: any;
 
-	async init(vue: any) {
-		this.store = main();
-		this.vue = vue;
-		this.ws = new WebSocket("ws://127.0.0.1:8172");
-		this.ws.onopen = function(event: any) {
-			console.log("Connected to event indexer.");
-		};
-		this.ws.onmessage = (event: any) => {
-			let message = JSON.parse(event.data);
-			console.log(message);
+  async init(vue: any) {
+    this.store = main();
+    this.vue = vue;
+    this.ws = new WebSocket("ws://127.0.0.1:8172");
+    this.ws.onopen = function(event: any) {
+      console.log("Connected to event indexer.");
+    };
+    this.ws.onmessage = (event: any) => {
+      let message = JSON.parse(event.data);
+      console.log(message);
 
-			switch (message.type) {
-				case 'status':
-					this.store.setLastBatchBlock(message.data.lastBatchBlock);
-					this.store.setLatestBlock(message.data.latestBlock);
-					break;
+      switch (message.type) {
+        case 'status':
+          this.store.setLastBatchBlock(message.data.lastBatchBlock);
+          this.store.setLatestBlock(message.data.latestBlock);
+          break;
 
-				case 'events':
-					this.store.setEvents(message.data.events);
-					break;
-			}
-		}
-	}
+        case 'events':
+          this.store.setEvents(message.data.events);
+          break;
+      }
+    }
+  }
 
-	getStatus() {
-		var msg = {
-			type: "GetStatus",
+  getStatus() {
+    var msg = {
+      type: "GetStatus",
     	};
 
     this.ws.send(JSON.stringify(msg));
   }
 
-	getEventsByAccountId(account_id: string) {
-		var msg = {
-			type: "GetEventsByAccountId",
-      		account_id: account_id,
-    	};
+  getEventsByAccountId(account_id: string) {
+    var msg = {
+      type: "GetEventsByAccountId",
+      account_id: account_id,
+    };
 
     console.log(JSON.stringify(msg));
 

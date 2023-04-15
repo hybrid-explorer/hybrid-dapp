@@ -1264,7 +1264,7 @@ packages:
       '@vue/devtools-api': 6.5.0
       typescript: 5.0.2
       vue: 3.2.47
-      vue-demi: 0.13.11(vue@3.2.47)
+      vue-demi: 0.14.0(vue@3.2.47)
     dev: false
 
   /pkg-dir@4.2.0:
@@ -1299,8 +1299,8 @@ packages:
       util-deprecate: 1.0.2
     dev: false
 
-  /resolve@1.22.2:
-    resolution: {integrity: sha512-Sb+mjNHOULsBv818T40qSPeRiuWLyaGMa5ewydRLFimneixmVy2zdivRl+AF6jaYPC8ERxGDmFSiqui6SfPd+g==}
+  /resolve@1.22.3:
+    resolution: {integrity: sha512-P8ur/gp/AmbEzjr729bZnLjXK5Z+4P0zhIJgBgzqRih7hL7BOukHGtSTA3ACMY467GRFz3duQsi0bDZdR7DKdw==}
     hasBin: true
     dependencies:
       is-core-module: 2.12.0
@@ -1442,13 +1442,13 @@ packages:
     dependencies:
       esbuild: 0.17.16
       postcss: 8.4.21
-      resolve: 1.22.2
+      resolve: 1.22.3
       rollup: 3.20.2
     optionalDependencies:
       fsevents: 2.3.2
 
-  /vue-demi@0.13.11(vue@3.2.47):
-    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+  /vue-demi@0.14.0(vue@3.2.47):
+    resolution: {integrity: sha512-gt58r2ogsNQeVoQ3EhoUAvUsH9xviydl0dWJj7dabBC/2L4uBId7ujtCwDRD0JhkGsV1i0CtfLAeyYKBht9oWg==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true

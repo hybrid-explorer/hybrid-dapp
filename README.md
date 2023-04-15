@@ -56,3 +56,21 @@ Go to http://127.0.0.1:5173/
 3. Click "Search".
 
 Events with the key will be appear.
+
+### Docker
+
+First, run the dockerfile for [hybrid-indexer](https://github.com/hybrid-explorer/hybrid-indexer).
+
+Run the following command to build the image:
+
+```
+docker build .
+```
+
+Then run the image with the correct port mapping:
+
+```
+docker run --rm -p 8173:8173 [image_hash]
+```
+
+

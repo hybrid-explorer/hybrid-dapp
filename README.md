@@ -73,4 +73,4 @@ Then run the image with the correct port mapping:
 docker run --rm -p 8173:8173 [image_hash]
 ```
 
-
+Go to http://127.0.0.1:8173/

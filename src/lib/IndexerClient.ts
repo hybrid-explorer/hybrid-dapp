@@ -11,7 +11,7 @@ export default class OffChainClient {
 	async init(vue: any) {
 		this.store = main();
 		this.vue = vue;
-		this.ws = new WebSocket("ws://127.0.0.1:8080");
+		this.ws = new WebSocket("ws://127.0.0.1:8172");
 		this.ws.onopen = function(event: any) {
 			console.log("Connected to event indexer.");
 		};

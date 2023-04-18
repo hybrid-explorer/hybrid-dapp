@@ -35,7 +35,7 @@ onMounted(async () => {
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
-      <v-app-bar-title>Hybrid Explorer {{ store.lastBatchBlock }} / {{ store.latestBlock }}</v-app-bar-title>
+      <v-app-bar-title>Hybrid Explorer {{ store.lastIndexedBlock }} / {{ store.lastBlock }}</v-app-bar-title>
     </v-app-bar>
     <v-main>
       <router-view></router-view>

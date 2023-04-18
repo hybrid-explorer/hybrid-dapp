@@ -21,8 +21,13 @@ export default class OffChainClient {
 
       switch (message.type) {
         case 'status':
-          this.store.setLastBatchBlock(message.data.lastBatchBlock);
-          this.store.setLatestBlock(message.data.latestBlock);
+          if (message.data.batchIndexingComplete) {
+            this.store.setLastIndexedBlock(message.data.lastHeadBlock);
+          }
+          else {
+            this.store.setLastIndexedBlock(message.data.lastBatchBlock);
+          }
+          this.store.setLastBlock(message.data.lastHeadBlock);
           break;
 
         case 'events':

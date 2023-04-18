@@ -34,15 +34,15 @@ export default class OffChainClient {
 
   getStatus() {
     var msg = {
-      type: "GetStatus",
-    	};
+      type: "Status",
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByAccountId(account_id: string) {
     var msg = {
-      type: "GetEventsByAccountId",
+      type: "EventsByAccountId",
       account_id: account_id,
     };
 
@@ -53,7 +53,7 @@ export default class OffChainClient {
 
   getEventsByAccountIndex(account_index: string) {
     var msg = {
-      type: "GetEventsByAccountIndex",
+      type: "EventsByAccountIndex",
       account_index: parseInt(account_index),
     };
 
@@ -64,7 +64,7 @@ export default class OffChainClient {
 
   getEventsByAuctionIndex(auction_index: string) {
     var msg = {
-      type: "GetEventsByAuctionIndex",
+      type: "EventsByAuctionIndex",
       auction_index: parseInt(auction_index),
     };
 
@@ -75,7 +75,7 @@ export default class OffChainClient {
 
   getEventsByBountyIndex(bounty_index: string) {
     var msg = {
-      type: "GetEventsByBountyIndex",
+      type: "EventsByBountyIndex",
       bounty_index: parseInt(bounty_index),
     };
 
@@ -86,7 +86,7 @@ export default class OffChainClient {
 
   getEventsByCandidateHash(candidate_hash: string) {
     var msg = {
-      type: "GetEventsByCandidateHash",
+      type: "EventsByCandidateHash",
       candidate_hash: candidate_hash,
     };
 
@@ -97,7 +97,7 @@ export default class OffChainClient {
 
   getEventsByMessageId(message_id: string) {
     var msg = {
-      type: "GetEventsByMessageId",
+      type: "EventsByMessageId",
       message_id: message_id,
     };
 
@@ -108,7 +108,7 @@ export default class OffChainClient {
 
   getEventsByParaId(para_id: string) {
     var msg = {
-      type: "GetEventsByParaId",
+      type: "EventsByParaId",
       para_id: parseInt(para_id),
     };
 
@@ -119,7 +119,7 @@ export default class OffChainClient {
 
   getEventsByPoolId(pool_id: string) {
     var msg = {
-      type: "GetEventsByPoolId",
+      type: "EventsByPoolId",
       pool_id: parseInt(pool_id),
     };
 
@@ -130,7 +130,7 @@ export default class OffChainClient {
 
   getEventsByProposalHash(proposal_hash: string) {
     var msg = {
-      type: "GetEventsByProposalHash",
+      type: "EventsByProposalHash",
       proposal_hash: proposal_hash,
     };
 
@@ -141,7 +141,7 @@ export default class OffChainClient {
 
   getEventsByProposalIndex(proposal_index: string) {
     var msg = {
-      type: "GetEventsByProposalIndex",
+      type: "EventsByProposalIndex",
       proposal_index: parseInt(proposal_index),
     };
 
@@ -152,7 +152,7 @@ export default class OffChainClient {
 
   getEventsByRefIndex(ref_index: string) {
     var msg = {
-      type: "GetEventsByRefIndex",
+      type: "EventsByRefIndex",
       ref_index: parseInt(ref_index),
     };
 
@@ -163,7 +163,7 @@ export default class OffChainClient {
 
   getEventsByRegistrarIndex(registrar_index: string) {
     var msg = {
-      type: "GetEventsByRegistrarIndex",
+      type: "EventsByRegistrarIndex",
       registrar_index: parseInt(registrar_index),
     };
 
@@ -174,7 +174,7 @@ export default class OffChainClient {
 
   getEventsByTipHash(tip_hash: string) {
     var msg = {
-      type: "GetEventsByRegistrarIndex",
+      type: "EventsByRegistrarIndex",
       tip_hash: tip_hash,
     };
 

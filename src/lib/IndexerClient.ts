@@ -17,7 +17,6 @@ export default class OffChainClient {
     };
     this.ws.onmessage = (event: any) => {
       let message = JSON.parse(event.data);
-      console.log(message);
 
       switch (message.type) {
         case 'status':
@@ -31,6 +30,7 @@ export default class OffChainClient {
           break;
 
         case 'events':
+          console.log(message);
           this.store.setEvents(message.data.events);
           break;
       }

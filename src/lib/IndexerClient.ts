@@ -179,7 +179,7 @@ export default class OffChainClient {
 
   getEventsByTipHash(tip_hash: string) {
     var msg = {
-      type: "EventsByRegistrarIndex",
+      type: "EventsByTipHash",
       tip_hash: tip_hash,
     };
 

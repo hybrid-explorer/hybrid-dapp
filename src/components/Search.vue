@@ -128,6 +128,9 @@ async function search(event: any) {
     case 'registrar_index':
       $indexerClient.getEventsByRegistrarIndex(registrarIndex.value);
       break;
+    case 'tip_hash':
+      $indexerClient.getEventsByTipHash(tipHash.value);
+      break;
   }
 }
 

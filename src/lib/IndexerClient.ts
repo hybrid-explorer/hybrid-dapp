@@ -12,8 +12,16 @@ export default class OffChainClient {
     this.store = main();
     this.vue = vue;
     this.ws = new WebSocket("ws://127.0.0.1:8172");
-    this.ws.onopen = function(event: any) {
+    this.ws.onopen = (event: any) => {
       console.log("Connected to event indexer.");
+      this.store.setConnected(true);
+    };
+    this.ws.onclose = (event: any) => {
+      console.log("Connection to event indexer closed.");
+      this.store.setConnected(false);
+    };
+    this.ws.onerror = (event: any) => {
+      console.log("Connection to event indexer errored.");
     };
     this.ws.onmessage = (event: any) => {
       let message = JSON.parse(event.data);
@@ -34,7 +42,7 @@ export default class OffChainClient {
           this.store.setEvents(message.data.events);
           break;
       }
-    }
+    };
   }
 
   getStatus() {

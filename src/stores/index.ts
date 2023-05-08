@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 
 export const main = defineStore('main', {
   state: () => ({
+    connected: false,
     events: {} as any,
     lastIndexedBlock: '',
     lastBlock: '',
@@ -9,6 +10,9 @@ export const main = defineStore('main', {
   getters: {
   },
   actions: {
+    setConnected(connected: boolean) {
+      this.connected = connected;
+    },
     setEvents(events: any) {
       this.events = events;
     },

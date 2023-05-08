@@ -141,8 +141,7 @@ async function search(event: any) {
   <v-container>
     <v-row>
       <v-col cols="12" lg="10">
-
-
+        <v-alert v-if="!store.connected" type="error" variant="outlined" class="mb-4">Not connected to indexer.</v-alert>
         <v-card class="mb-10">
           <v-toolbar color="blue">
             <v-toolbar-title>Search events</v-toolbar-title>

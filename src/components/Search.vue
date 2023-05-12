@@ -185,14 +185,12 @@ async function search(event: any) {
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="event in store.events"
-            >
+            <tr v-for="[eventId, event] in store.events" :key="eventId">
               <td>{{ event.blockNumber }}</td>
-              <td>{{ event.event.pallet }}</td>
-              <td>{{ event.event.variant }}</td>
-              <td>
-                <span v-for="(value, key) in event.event.details">{{key}}: {{value}}<br /></span>
+              <td>{{ event.pallet }}</td>
+              <td>{{ event.variant }}</td>
+              <td>{{ event.help }}<br />{{ event.keys }}<br />
+                <span v-for="(value, key) in event.values">{{key}}: {{value}}<br /></span>
               </td>
             </tr>
           </tbody>

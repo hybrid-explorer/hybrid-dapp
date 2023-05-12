@@ -5,12 +5,32 @@ import { main } from '../stores/index'
 
 export default class OffChainClient {
   store: any;
-  vue: any;
   ws: any;
+  polkadotClient: any;
 
-  async init(vue: any) {
+  async processEvent(event: any) {
+    this.polkadotClient.api.rpc.chain.getBlockHash(event.blockNumber).then((blockHash: any) => {
+      this.polkadotClient.api.at(blockHash).then((apiAt: any) => {
+        apiAt.query.system.events().then((events: any) => {
+          const key = event.blockNumber + '-' + event.i;
+          const human = events[event.i].event.toHuman(true);
+          const value = {
+            blockNumber: event.blockNumber,
+            pallet: events[event.i].event.section,
+            variant: events[event.i].event.method,
+            help: human.docs[0],
+            keys: human.docs[1],
+            values: human.data,
+          }
+          this.store.setEvent(key, value);
+        });
+      });
+    });
+  }
+
+  async init(polkadotClient: any) {
     this.store = main();
-    this.vue = vue;
+    this.polkadotClient = polkadotClient;
     this.ws = new WebSocket("ws://127.0.0.1:8172");
     this.ws.onopen = (event: any) => {
       console.log("Connected to event indexer.");
@@ -39,8 +59,11 @@ export default class OffChainClient {
 
         case 'events':
           console.log(message);
-          this.store.setEvents(message.data.events);
-          break;
+          this.store.clearEvents();
+
+          for (event of message.data.events) {
+            this.processEvent(event);
+          }
       }
     };
   }

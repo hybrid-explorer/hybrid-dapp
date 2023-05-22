@@ -9,23 +9,21 @@ export default class OffChainClient {
   polkadotClient: any;
 
   async processEvent(event: any) {
-    this.polkadotClient.api.rpc.chain.getBlockHash(event.blockNumber).then((blockHash: any) => {
-      this.polkadotClient.api.at(blockHash).then((apiAt: any) => {
-        apiAt.query.system.events().then((events: any) => {
-          const key = event.blockNumber + '-' + event.i;
-          const human = events[event.i].event.toHuman(true);
-          const value = {
-            blockNumber: event.blockNumber,
-            pallet: events[event.i].event.section,
-            variant: events[event.i].event.method,
-            help: human.docs[0],
-            keys: human.docs[1],
-            values: human.data,
-          }
-          this.store.setEvent(key, value);
-        });
-      });
-    });
+    let blockHash = await this.polkadotClient.api.rpc.chain.getBlockHash(event.blockNumber);
+    let apiAt = await this.polkadotClient.api.at(blockHash);
+    let events = await apiAt.query.system.events();
+    const key = event.blockNumber + '-' + event.i;
+    const human = events[event.i].event.toHuman(true);
+    const value = {
+      blockNumber: event.blockNumber,
+      pallet: events[event.i].event.section,
+      variant: events[event.i].event.method,
+      help: human.docs[0],
+      keys: human.docs[1],
+      values: human.data,
+    }
+    console.log(key);
+    this.store.setEvent(key, value);
   }
 
   async init(polkadotClient: any) {
@@ -43,7 +41,7 @@ export default class OffChainClient {
     this.ws.onerror = (event: any) => {
       console.log("Connection to event indexer errored.");
     };
-    this.ws.onmessage = (event: any) => {
+    this.ws.onmessage = async (event: any) => {
       let message = JSON.parse(event.data);
 
       switch (message.type) {
@@ -78,8 +76,11 @@ export default class OffChainClient {
 
   getEventsByAccountId(account_id: string) {
     var msg = {
-      type: "EventsByAccountId",
-      account_id: account_id,
+      type: "GetEvents",
+      key: {
+        type: "AccountId",
+        value: account_id,
+      },
     };
 
     console.log(JSON.stringify(msg));
@@ -89,8 +90,11 @@ export default class OffChainClient {
 
   getEventsByAccountIndex(account_index: string) {
     var msg = {
-      type: "EventsByAccountIndex",
-      account_index: parseInt(account_index),
+      type: "GetEvents",
+      key: {
+        type: "AccountIndex",
+        value: parseInt(account_index),
+      },
     };
 
     console.log(JSON.stringify(msg));
@@ -100,8 +104,11 @@ export default class OffChainClient {
 
   getEventsByAuctionIndex(auction_index: string) {
     var msg = {
-      type: "EventsByAuctionIndex",
-      auction_index: parseInt(auction_index),
+      type: "GetEvents",
+      key: {
+        type: "AuctionIndex",
+        value: parseInt(auction_index),
+      },
     };
 
     console.log(JSON.stringify(msg));
@@ -111,8 +118,11 @@ export default class OffChainClient {
 
   getEventsByBountyIndex(bounty_index: string) {
     var msg = {
-      type: "EventsByBountyIndex",
-      bounty_index: parseInt(bounty_index),
+      type: "GetEvents",
+      key: {
+        type: "BountyIndex",
+        value: parseInt(bounty_index),
+      },
     };
 
     console.log(JSON.stringify(msg));
@@ -122,10 +132,13 @@ export default class OffChainClient {
 
   getEventsByCandidateHash(candidate_hash: string) {
     var msg = {
-      type: "EventsByCandidateHash",
-      candidate_hash: candidate_hash,
+      type: "GetEvents",
+      key: {
+        type: "CandidateHash",
+        value: candidate_hash,
+      },
     };
-
+  
     console.log(JSON.stringify(msg));
 
     this.ws.send(JSON.stringify(msg));
@@ -133,8 +146,11 @@ export default class OffChainClient {
 
   getEventsByMessageId(message_id: string) {
     var msg = {
-      type: "EventsByMessageId",
-      message_id: message_id,
+      type: "GetEvents",
+      key: {
+        type: "MessageId",
+        value: message_id,
+      },
     };
 
     console.log(JSON.stringify(msg));
@@ -144,10 +160,13 @@ export default class OffChainClient {
 
   getEventsByParaId(para_id: string) {
     var msg = {
-      type: "EventsByParaId",
-      para_id: parseInt(para_id),
+      type: "GetEvents",
+      key: {
+        type: "ParaId",
+        para_id: parseInt(para_id),
+      },
     };
-
+  
     console.log(JSON.stringify(msg));
 
     this.ws.send(JSON.stringify(msg));
@@ -155,10 +174,13 @@ export default class OffChainClient {
 
   getEventsByPoolId(pool_id: string) {
     var msg = {
-      type: "EventsByPoolId",
-      pool_id: parseInt(pool_id),
+      type: "GetEvents",
+      key: {
+        type: "PoolId",
+        pool_id: parseInt(pool_id),
+      },
     };
-
+  
     console.log(JSON.stringify(msg));
 
     this.ws.send(JSON.stringify(msg));
@@ -166,10 +188,13 @@ export default class OffChainClient {
 
   getEventsByProposalHash(proposal_hash: string) {
     var msg = {
-      type: "EventsByProposalHash",
-      proposal_hash: proposal_hash,
+      type: "GetEvents",
+      key: {
+        type: "ProposalHash",
+        value: proposal_hash,
+      },
     };
-
+  
     console.log(JSON.stringify(msg));
 
     this.ws.send(JSON.stringify(msg));
@@ -177,10 +202,13 @@ export default class OffChainClient {
 
   getEventsByProposalIndex(proposal_index: string) {
     var msg = {
-      type: "EventsByProposalIndex",
-      proposal_index: parseInt(proposal_index),
+      type: "GetEvents",
+      key: {
+        type: "ProposalIndex",
+        value: parseInt(proposal_index),
+      },
     };
-
+  
     console.log(JSON.stringify(msg));
 
     this.ws.send(JSON.stringify(msg));
@@ -188,10 +216,13 @@ export default class OffChainClient {
 
   getEventsByRefIndex(ref_index: string) {
     var msg = {
-      type: "EventsByRefIndex",
-      ref_index: parseInt(ref_index),
+      type: "GetEvents",
+      key: {
+        type: "RefIndex",
+        value: parseInt(ref_index),
+      },
     };
-
+  
     console.log(JSON.stringify(msg));
 
     this.ws.send(JSON.stringify(msg));
@@ -199,8 +230,11 @@ export default class OffChainClient {
 
   getEventsByRegistrarIndex(registrar_index: string) {
     var msg = {
-      type: "EventsByRegistrarIndex",
-      registrar_index: parseInt(registrar_index),
+      type: "GetEvents",
+      key: {
+          type: "RegistrarIndex",
+          value: parseInt(registrar_index),
+      }
     };
 
     console.log(JSON.stringify(msg));
@@ -210,10 +244,13 @@ export default class OffChainClient {
 
   getEventsByTipHash(tip_hash: string) {
     var msg = {
-      type: "EventsByTipHash",
-      tip_hash: tip_hash,
+      type: "GetEvents",
+      key: {
+        type: "TipHash",
+        value: tip_hash,
+      },
     };
-
+  
     console.log(JSON.stringify(msg));
 
     this.ws.send(JSON.stringify(msg));

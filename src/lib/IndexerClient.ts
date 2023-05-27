@@ -57,11 +57,15 @@ export default class OffChainClient {
 
         case 'events':
           console.log(message);
-          this.store.clearEvents();
-
+          let promises = [];
           for (event of message.data.events) {
-            this.processEvent(event);
+            promises.push(this.processEvent(event));
+            if (promises.length == 20) {
+              await Promise.all(promises);
+              promises = [];
+            }
           }
+          Promise.all(promises);
       }
     };
   }
@@ -163,7 +167,7 @@ export default class OffChainClient {
       type: "GetEvents",
       key: {
         type: "ParaId",
-        para_id: parseInt(para_id),
+        value: parseInt(para_id),
       },
     };
   
@@ -177,7 +181,7 @@ export default class OffChainClient {
       type: "GetEvents",
       key: {
         type: "PoolId",
-        pool_id: parseInt(pool_id),
+        value: parseInt(pool_id),
       },
     };
   

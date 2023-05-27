@@ -91,6 +91,7 @@ const searchKeyItems = ref([
 
 
 async function search(event: any) {
+  store.clearEvents();
   switch (searchKey.value) {
     case 'account_id':
       $indexerClient.getEventsByAccountId(accountId.value);

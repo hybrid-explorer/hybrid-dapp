@@ -26,7 +26,7 @@ onMounted(async () => {
     $indexerClient.getStatus();
   }, 1000);
 });
-
+ 
 </script>
 
 <template>
@@ -40,7 +40,8 @@ onMounted(async () => {
       <v-app-bar-title>Hybrid Explorer {{ store.lastIndexedBlock }} / {{ store.lastBlock }}</v-app-bar-title>
     </v-app-bar>
     <v-main>
-      <router-view></router-view>
+        <v-alert v-if="!store.connected" type="error" variant="outlined" class="mb-4">Not connected to indexer.</v-alert>
+        <router-view v-else></router-view>
     </v-main>
     <v-footer app>
     </v-footer>

@@ -54,6 +54,10 @@ export default class OffChainClient {
           }
           this.store.setLastBlock(message.data.lastHeadBlock);
           break;
+          
+        case 'variants':
+          this.store.setVariants(message.data);
+          break; 
 
         case 'events':
           console.log(message);
@@ -78,7 +82,16 @@ export default class OffChainClient {
     this.ws.send(JSON.stringify(msg));
   }
 
-  getEventsByAccountId(account_id: string) {
+  getVariants() {
+    var msg = {
+      type: "Variants",
+    };
+
+    console.log(JSON.stringify(msg));
+    this.ws.send(JSON.stringify(msg));
+  }
+
+    getEventsByAccountId(account_id: string) {
     var msg = {
       type: "GetEvents",
       key: {
@@ -252,6 +265,19 @@ export default class OffChainClient {
       key: {
         type: "TipHash",
         value: tip_hash,
+      },
+    };
+  
+    console.log(JSON.stringify(msg));
+    this.ws.send(JSON.stringify(msg));
+  }
+
+  getEventsByVariant(pallet: number, variant: number) {
+    var msg = {
+      type: "GetEvents",
+      key: {
+        type: "Variant",
+        value: [pallet, variant],
       },
     };
   

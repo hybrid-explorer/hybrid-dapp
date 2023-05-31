@@ -12,6 +12,7 @@ interface Event {
 export const main = defineStore('main', {
   state: () => ({
     connected: false,
+    variants: [] as any[],
     events: new Map<string, Event>(),
     lastIndexedBlock: '',
     lastBlock: '',
@@ -21,6 +22,9 @@ export const main = defineStore('main', {
   actions: {
     setConnected(connected: boolean) {
       this.connected = connected;
+    },
+    setVariants(variants: any) {
+      this.variants = variants;
     },
     clearEvents() {
       this.events.clear();

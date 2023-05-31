@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, onMounted, computed, watch } from 'vue'
+import { ref, inject, onMounted, computed, watch, onActivated } from 'vue'
 import type { Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import {
@@ -19,6 +19,10 @@ let router = useRouter();
 
 let $indexerClient: any = inject('$indexerClient');
 
+onMounted(async () => {
+  $indexerClient.getVariants(); 
+});
+
 const searchKey = ref("account_id");
 const accountId = ref("");
 const accountIndex = ref("");
@@ -33,6 +37,17 @@ const proposalIndex = ref("");
 const refIndex = ref("");
 const registrarIndex = ref("");
 const tipHash = ref("");
+const palletIndex = ref(0);
+const variantIndex = ref(0);
+
+const palletEvents = computed(() => {
+  for (let eventVariants of store.variants) {
+    if (eventVariants.index == palletIndex.value) {
+      return eventVariants.events;
+    }
+  }
+})
+
 
 const searchKeyItems = ref([
   {
@@ -87,6 +102,10 @@ const searchKeyItems = ref([
     title: 'Tip Hash',
     value: 'tip_hash',
   },
+  {
+    title: 'Pallet / Variant',
+    value: 'variant',
+  },
 ]);
 
 
@@ -132,6 +151,9 @@ async function search(event: any) {
     case 'tip_hash':
       $indexerClient.getEventsByTipHash(tipHash.value);
       break;
+    case 'variant':
+      $indexerClient.getEventsByVariant(palletIndex.value, variantIndex.value);
+      break;
   }
 }
 
@@ -142,7 +164,6 @@ async function search(event: any) {
   <v-container>
     <v-row>
       <v-col cols="12" lg="10">
-        <v-alert v-if="!store.connected" type="error" variant="outlined" class="mb-4">Not connected to indexer.</v-alert>
         <v-card class="mb-10">
           <v-toolbar color="blue">
             <v-toolbar-title>Search events</v-toolbar-title>
@@ -162,6 +183,10 @@ async function search(event: any) {
             <v-text-field v-if="searchKey == 'ref_index'" v-model="refIndex" label="Ref Index"></v-text-field>
             <v-text-field v-if="searchKey == 'registrar_index'" v-model="registrarIndex" label="Registrar Index"></v-text-field>
             <v-text-field v-if="searchKey == 'tip_hash'" v-model="tipHash" label="Tip Hash"></v-text-field>
+            <template v-if="searchKey == 'variant'">
+              <v-select :items="store.variants" item-title="name" item-value="index" v-model="palletIndex" label="Pallet"></v-select>
+              <v-select :items="palletEvents" item-title="name" item-value="index" v-model="variantIndex" label="Variant"></v-select>
+            </template>
           </v-card-text>
           <v-card-actions>
             <v-btn @click="search">Search</v-btn>

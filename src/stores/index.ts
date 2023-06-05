@@ -13,7 +13,7 @@ export const main = defineStore('main', {
   state: () => ({
     connected: false,
     variants: [] as any[],
-    events: new Map<string, Event>(),
+    events: [] as any[],
     lastIndexedBlock: '',
     lastBlock: '',
   }),
@@ -27,10 +27,10 @@ export const main = defineStore('main', {
       this.variants = variants;
     },
     clearEvents() {
-      this.events.clear();
+      this.events = [];
     },
-    setEvent(eventId: string, event: Event) {
-      this.events.set(eventId, event);
+    setEvent(event: Event) {
+      this.events.push(event);
     },
     setLastIndexedBlock(lastIndexedBlock: number) {
       this.lastIndexedBlock = lastIndexedBlock.toLocaleString();

@@ -12,18 +12,18 @@ export default class OffChainClient {
     let blockHash = await this.polkadotClient.api.rpc.chain.getBlockHash(event.blockNumber);
     let apiAt = await this.polkadotClient.api.at(blockHash);
     let events = await apiAt.query.system.events();
-    const key = event.blockNumber + '-' + event.i;
     const human = events[event.i].event.toHuman(true);
     const value = {
       blockNumber: event.blockNumber,
       pallet: events[event.i].event.section,
       variant: events[event.i].event.method,
-      help: human.docs[0],
-      keys: human.docs[1],
-      values: human.data,
+      details : {
+        help: human.docs[0],
+        keys: human.docs[1],
+        values: human.data,
+      },
     }
-    console.log(key);
-    this.store.setEvent(key, value);
+    this.store.setEvent(value);
   }
 
   async init(polkadotClient: any) {
@@ -91,7 +91,7 @@ export default class OffChainClient {
     this.ws.send(JSON.stringify(msg));
   }
 
-    getEventsByAccountId(account_id: string) {
+  getEventsByAccountId(account_id: string) {
     var msg = {
       type: "GetEvents",
       key: {
@@ -161,6 +161,20 @@ export default class OffChainClient {
     this.ws.send(JSON.stringify(msg));
   }
 
+  getEventsByEraIndex(era_index: string) {
+    var msg = {
+      type: "GetEvents",
+      key: {
+        type: "EraIndex",
+        value: parseInt(era_index),
+      },
+    };
+
+    console.log(JSON.stringify(msg));
+
+    this.ws.send(JSON.stringify(msg));
+  }
+
   getEventsByMessageId(message_id: string) {
     var msg = {
       type: "GetEvents",
@@ -198,6 +212,20 @@ export default class OffChainClient {
       },
     };
   
+    console.log(JSON.stringify(msg));
+
+    this.ws.send(JSON.stringify(msg));
+  }
+
+  getEventsByPreimageHash(preimage_hash: string) {
+    var msg = {
+      type: "GetEvents",
+      key: {
+        type: "PreimageHash",
+        value: preimage_hash,
+      },
+    };
+
     console.log(JSON.stringify(msg));
 
     this.ws.send(JSON.stringify(msg));
@@ -251,6 +279,20 @@ export default class OffChainClient {
       key: {
           type: "RegistrarIndex",
           value: parseInt(registrar_index),
+      }
+    };
+
+    console.log(JSON.stringify(msg));
+
+    this.ws.send(JSON.stringify(msg));
+  }
+
+  getEventsBySessionIndex(session_index: string) {
+    var msg = {
+      type: "GetEvents",
+      key: {
+          type: "SessionIndex",
+          value: parseInt(session_index),
       }
     };
 

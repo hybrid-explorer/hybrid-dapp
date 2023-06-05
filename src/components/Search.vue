@@ -29,13 +29,16 @@ const accountIndex = ref("");
 const auctionIndex = ref("");
 const bountyIndex = ref("");
 const candidateHash = ref("");
+const eraIndex = ref("");
 const messageId = ref("");
 const paraId = ref("");
 const poolId = ref("");
+const preimageHash = ref("");
 const proposalHash = ref("");
 const proposalIndex = ref("");
 const refIndex = ref("");
 const registrarIndex = ref("");
+const sessionIndex = ref("");
 const tipHash = ref("");
 const palletIndex = ref(0);
 const variantIndex = ref(0);
@@ -71,6 +74,10 @@ const searchKeyItems = ref([
     value: 'candidate_hash',
   },
   {
+    title: 'Era Index',
+    value: 'era_index',
+  },
+  {
     title: 'Message Id',
     value: 'message_id',
   },
@@ -81,6 +88,10 @@ const searchKeyItems = ref([
   {
     title: 'Pool Id',
     value: 'pool_id',
+  },
+  {
+    title: 'Preimage Hash',
+    value: 'preimage_hash',
   },
   {
     title: 'Proposal Hash',
@@ -97,6 +108,10 @@ const searchKeyItems = ref([
   {
     title: 'Registrar Index',
     value: 'registrar_index',
+  },
+  {
+    title: 'Session Index',
+    value: 'session_index',
   },
   {
     title: 'Tip Hash',
@@ -127,6 +142,9 @@ async function search(event: any) {
     case 'candidate_hash':
       $indexerClient.getEventsByCandidateHash(candidateHash.value);
       break;
+    case 'era_index':
+      $indexerClient.getEventsByEraIndex(eraIndex.value);
+      break;
     case 'message_id':
       $indexerClient.getEventsByMessageId(messageId.value);
       break;
@@ -135,6 +153,9 @@ async function search(event: any) {
       break;
     case 'pool_id':
       $indexerClient.getEventsByPoolId(poolId.value);
+      break;
+    case 'preimage_hash':
+      $indexerClient.getEventsByPreimageHash(preimageHash.value);
       break;
     case 'proposal_hash':
       $indexerClient.getEventsByProposalHash(proposalHash.value);
@@ -148,6 +169,9 @@ async function search(event: any) {
     case 'registrar_index':
       $indexerClient.getEventsByRegistrarIndex(registrarIndex.value);
       break;
+    case 'session_index':
+      $indexerClient.getEventsBySessionIndex(sessionIndex.value);
+      break;
     case 'tip_hash':
       $indexerClient.getEventsByTipHash(tipHash.value);
       break;
@@ -157,7 +181,33 @@ async function search(event: any) {
   }
 }
 
-
+const headers= [
+  {
+    title: 'Block',
+    align: 'start',
+    sortable: true,
+    key: 'blockNumber',
+  },
+  {
+    title: 'Pallet',
+    align: 'end',
+    sortable: false,
+    key: 'pallet',
+  },
+  {
+    title: 'Variant',
+    align: 'end',
+    sortable: false,
+    key: 'variant',
+  },
+  {
+    title: 'Details',
+    align: 'start',
+    sortable: false,
+    key: 'details',
+  },
+];
+        
 </script>
 
 <template>
@@ -175,13 +225,16 @@ async function search(event: any) {
             <v-text-field v-if="searchKey == 'auction_index'" v-model="auctionIndex" label="Auction Index"></v-text-field>
             <v-text-field v-if="searchKey == 'bounty_index'" v-model="bountyIndex" label="Bounty Index"></v-text-field>
             <v-text-field v-if="searchKey == 'candidate_hash'" v-model="candidateHash" label="Candidate Hash"></v-text-field>
+            <v-text-field v-if="searchKey == 'era_index'" v-model="eraIndex" label="Era Index"></v-text-field>
             <v-text-field v-if="searchKey == 'message_id'" v-model="messageId" label="Message Id"></v-text-field>
             <v-text-field v-if="searchKey == 'para_id'" v-model="paraId" label="Para Id"></v-text-field>
             <v-text-field v-if="searchKey == 'pool_id'" v-model="poolId" label="Pool Id"></v-text-field>
+            <v-text-field v-if="searchKey == 'preimage_hash'" v-model="preimageHash" label="Preimage Hash"></v-text-field>
             <v-text-field v-if="searchKey == 'proposal_hash'" v-model="proposalHash" label="Proposal Hash"></v-text-field>
             <v-text-field v-if="searchKey == 'proposal_index'" v-model="proposalIndex" label="Proposal Index"></v-text-field>
             <v-text-field v-if="searchKey == 'ref_index'" v-model="refIndex" label="Ref Index"></v-text-field>
             <v-text-field v-if="searchKey == 'registrar_index'" v-model="registrarIndex" label="Registrar Index"></v-text-field>
+            <v-text-field v-if="searchKey == 'session_index'" v-model="sessionIndex" label="Session Index"></v-text-field>
             <v-text-field v-if="searchKey == 'tip_hash'" v-model="tipHash" label="Tip Hash"></v-text-field>
             <template v-if="searchKey == 'variant'">
               <v-select :items="store.variants" item-title="name" item-value="index" v-model="palletIndex" label="Pallet"></v-select>
@@ -193,35 +246,20 @@ async function search(event: any) {
           </v-card-actions>
         </v-card>
 
-        <v-table theme="dark">
-          <thead>
-            <tr>
-              <th class="text-left">
-                Block
-              </th>
-              <th class="text-left">
-                Pallet
-              </th>
-              <th class="text-left">
-                Variant
-              </th>
-              <th class="text-left">
-                Details
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="[eventId, event] in store.events" :key="eventId">
-              <td>{{ event.blockNumber }}</td>
-              <td>{{ event.pallet }}</td>
-              <td>{{ event.variant }}</td>
-              <td>{{ event.help }}<br />{{ event.keys }}<br />
-                <span v-for="(value, key) in event.values">{{key}}: {{value}}<br /></span>
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
-
+        <v-data-table
+            :headers="headers"
+            :items="store.events"
+            :must-sort="true"
+            :show-current-page="false"
+            items-per-page="-1"
+            class="elevation-1"
+            item-value="blockNumber"
+          >
+          <template v-slot:item.details="{ item }">
+            {{ item.columns.details.help }}<br />{{ item.columns.details.keys }}<br />
+            <span v-for="(value, key) in item.columns.details.values">{{key}}: {{value}}<br /></span>
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
   </v-container>

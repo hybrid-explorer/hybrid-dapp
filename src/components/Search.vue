@@ -250,6 +250,7 @@ const headers= [
             :headers="headers"
             :items="store.events"
             :must-sort="true"
+            :sort-by="[{key: 'blockNumber', order: 'desc'}]"
             :show-current-page="false"
             items-per-page="-1"
             class="elevation-1"

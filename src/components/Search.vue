@@ -51,6 +51,9 @@ const palletEvents = computed(() => {
   }
 })
 
+watch(palletIndex, () => {
+  variantIndex.value = 0;
+})
 
 const searchKeyItems = ref([
   {
@@ -190,13 +193,13 @@ const headers= [
   },
   {
     title: 'Pallet',
-    align: 'end',
+    align: 'start',
     sortable: false,
     key: 'pallet',
   },
   {
     title: 'Variant',
-    align: 'end',
+    align: 'start',
     sortable: false,
     key: 'variant',
   },
@@ -257,7 +260,7 @@ const headers= [
             item-value="blockNumber"
           >
           <template v-slot:item.details="{ item }">
-            {{ item.columns.details.help }}<br />{{ item.columns.details.keys }}<br />
+            {{ item.columns.details.help }}<br />
             <span v-for="(value, key) in item.columns.details.values">{{key}}: {{value}}<br /></span>
           </template>
         </v-data-table>

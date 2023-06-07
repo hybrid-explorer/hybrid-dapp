@@ -19,8 +19,7 @@ export default class OffChainClient {
       pallet: events[event.i].event.section,
       variant: events[event.i].event.method,
       details : {
-        help: human.docs[0],
-        keys: human.docs[1],
+        help: human.docs.join(' '),
         values: human.data,
       },
     }
@@ -65,7 +64,6 @@ export default class OffChainClient {
           if ((message.data.key.type != this.key.type) ||
             (JSON.stringify(message.data.key.value) != JSON.stringify(this.key.value)))
           {
-              console.log('Wrong key.');
               break;
           }
           let promises = [];

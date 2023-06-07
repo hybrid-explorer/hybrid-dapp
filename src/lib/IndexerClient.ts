@@ -7,6 +7,7 @@ export default class OffChainClient {
   store: any;
   ws: any;
   polkadotClient: any;
+  key: any;
 
   async processEvent(event: any) {
     let blockHash = await this.polkadotClient.api.rpc.chain.getBlockHash(event.blockNumber);
@@ -61,6 +62,12 @@ export default class OffChainClient {
 
         case 'events':
           console.log(message);
+          if ((message.data.key.type != this.key.type) ||
+            (JSON.stringify(message.data.key.value) != JSON.stringify(this.key.value)))
+          {
+              console.log('Wrong key.');
+              break;
+          }
           let promises = [];
           for (event of message.data.events) {
             promises.push(this.processEvent(event));
@@ -92,238 +99,358 @@ export default class OffChainClient {
   }
 
   getEventsByAccountId(account_id: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "AccountId",
-        value: account_id,
-      },
+    this.key = {
+      type: "AccountId",
+      value: account_id,
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByAccountIndex(account_index: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "AccountIndex",
-        value: parseInt(account_index),
-      },
+    this.key = {
+      type: "AccountIndex",
+      value: parseInt(account_index),
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByAuctionIndex(auction_index: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "AuctionIndex",
-        value: parseInt(auction_index),
-      },
+    this.key = {
+      type: "AuctionIndex",
+      value: parseInt(auction_index),
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByBountyIndex(bounty_index: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "BountyIndex",
-        value: parseInt(bounty_index),
-      },
+    this.key = {
+      type: "BountyIndex",
+      value: parseInt(bounty_index),
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByCandidateHash(candidate_hash: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "CandidateHash",
-        value: candidate_hash,
-      },
+    this.key = {
+      type: "CandidateHash",
+      value: candidate_hash,
     };
-  
-    console.log(JSON.stringify(msg));
+
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByEraIndex(era_index: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "EraIndex",
-        value: parseInt(era_index),
-      },
+    this.key = {
+      type: "EraIndex",
+      value: parseInt(era_index),
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByMessageId(message_id: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "MessageId",
-        value: message_id,
-      },
+    this.key = {
+      type: "MessageId",
+      value: message_id,
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByParaId(para_id: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "ParaId",
-        value: parseInt(para_id),
-      },
+    this.key = {
+      type: "ParaId",
+      value: parseInt(para_id),
     };
-  
-    console.log(JSON.stringify(msg));
+
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByPoolId(pool_id: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "PoolId",
-        value: parseInt(pool_id),
-      },
+    this.key = {
+      type: "PoolId",
+      value: parseInt(pool_id),
     };
-  
-    console.log(JSON.stringify(msg));
+
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByPreimageHash(preimage_hash: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "PreimageHash",
-        value: preimage_hash,
-      },
+    this.key = {
+      type: "PreimageHash",
+      value: preimage_hash,
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByProposalHash(proposal_hash: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "ProposalHash",
-        value: proposal_hash,
-      },
+    this.key = {
+      type: "ProposalHash",
+      value: proposal_hash,
     };
-  
-    console.log(JSON.stringify(msg));
+
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByProposalIndex(proposal_index: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "ProposalIndex",
-        value: parseInt(proposal_index),
-      },
+    this.key = {
+      type: "ProposalIndex",
+      value: parseInt(proposal_index),
     };
-  
-    console.log(JSON.stringify(msg));
+
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByRefIndex(ref_index: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "RefIndex",
-        value: parseInt(ref_index),
-      },
+    this.key = {
+      type: "RefIndex",
+      value: parseInt(ref_index),
     };
-  
-    console.log(JSON.stringify(msg));
+
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByRegistrarIndex(registrar_index: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-          type: "RegistrarIndex",
-          value: parseInt(registrar_index),
-      }
+    this.key = {
+      type: "RegistrarIndex",
+      value: parseInt(registrar_index),
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsBySessionIndex(session_index: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-          type: "SessionIndex",
-          value: parseInt(session_index),
-      }
+    this.key = {
+      type: "SessionIndex",
+      value: parseInt(session_index),
     };
 
-    console.log(JSON.stringify(msg));
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByTipHash(tip_hash: string) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "TipHash",
-        value: tip_hash,
-      },
+    this.key = {
+      type: "TipHash",
+      value: tip_hash,
     };
-  
-    console.log(JSON.stringify(msg));
+
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
+
     this.ws.send(JSON.stringify(msg));
   }
 
   getEventsByVariant(pallet: number, variant: number) {
-    var msg = {
-      type: "GetEvents",
-      key: {
-        type: "Variant",
-        value: [pallet, variant],
-      },
+    this.key = {
+      type: "Variant",
+      value: [pallet, variant],
     };
-  
-    console.log(JSON.stringify(msg));
+
+    let msg = {
+      type: "SubscribeEvents",
+      key: this.key,
+    };
+
+    this.ws.send(JSON.stringify(msg));
+
+    msg = {
+      type: "GetEvents",
+      key: this.key,
+    };
 
     this.ws.send(JSON.stringify(msg));
   }

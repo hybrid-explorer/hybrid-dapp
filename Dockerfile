@@ -1,4 +1,4 @@
-FROM gplane/pnpm:8.2
+FROM gplane/pnpm:8
 
 WORKDIR /usr/src/hybrid-dapp
 

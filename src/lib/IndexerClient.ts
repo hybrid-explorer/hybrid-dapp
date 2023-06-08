@@ -9,10 +9,17 @@ export default class OffChainClient {
   polkadotClient: any;
   key: any;
 
-  async processEvent(event: any) {
+  async processEvent(key: any, event: any) {
     let blockHash = await this.polkadotClient.api.rpc.chain.getBlockHash(event.blockNumber);
     let apiAt = await this.polkadotClient.api.at(blockHash);
     let events = await apiAt.query.system.events();
+
+    if ((key.type != this.key.type) ||
+      (JSON.stringify(key.value) != JSON.stringify(this.key.value)))
+    {
+        return;
+    }
+
     const human = events[event.i].event.toHuman(true);
     const value = {
       blockNumber: event.blockNumber,
@@ -68,7 +75,7 @@ export default class OffChainClient {
           }
           let promises = [];
           for (event of message.data.events) {
-            promises.push(this.processEvent(event));
+            promises.push(this.processEvent(message.data.key, event));
             if (promises.length == 20) {
               await Promise.all(promises);
               promises = [];

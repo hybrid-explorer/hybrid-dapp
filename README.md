@@ -34,7 +34,7 @@ It will use [@polkadot/api](https://github.com/polkadot-js/api) to retrieve data
 
 #### Start indexing Polkadot
 
-Follow the instructions at [Hybrid Indexer](https://github.com/hybrid-explorer/hybrid-indexer)
+Follow the instructions at [Hybrid Indexer](https://github.com/hybrid-explorer/hybrid-indexer/tree/milestone-2)
 
 #### Build the dapp
 
@@ -59,7 +59,7 @@ Events with the key will be appear.
 
 ### Docker
 
-First, run the dockerfile for [hybrid-indexer](https://github.com/hybrid-explorer/hybrid-indexer).
+First, run the dockerfile for [hybrid-indexer](https://github.com/hybrid-explorer/hybrid-indexer/tree/milestone-2).
 
 Run the following command to build the image:
 

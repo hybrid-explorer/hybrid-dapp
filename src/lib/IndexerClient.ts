@@ -20,11 +20,11 @@ export default class OffChainClient {
         return;
     }
 
-    const human = events[event.i].event.toHuman(true);
+    const human = events[event.eventIndex].event.toHuman(true);
     const value = {
       blockNumber: event.blockNumber,
-      pallet: events[event.i].event.section,
-      variant: events[event.i].event.method,
+      pallet: events[event.eventIndex].event.section,
+      variant: events[event.eventIndex].event.method,
       details : {
         help: human.docs.join(' '),
         values: human.data,

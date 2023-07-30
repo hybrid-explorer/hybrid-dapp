@@ -9,8 +9,8 @@ import {
   web3ListRpcProviders,
   web3UseRpcProvider
 } from '@polkadot/extension-dapp';
-import { encodeAddress } from '@polkadot/keyring';
-
+import { decodeAddress } from '@polkadot/keyring';
+import { u8aToHex } from '@polkadot/util';
 import { main } from '../stores/index'
 const store = main();
 
@@ -131,7 +131,7 @@ async function search(event: any) {
   store.clearEvents();
   switch (searchKey.value) {
     case 'account_id':
-      $indexerClient.getEventsByAccountId(accountId.value);
+      $indexerClient.getEventsByAccountId(u8aToHex(decodeAddress(accountId.value)));
       break;
     case 'account_index':
       $indexerClient.getEventsByAccountIndex(accountIndex.value);

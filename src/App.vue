@@ -31,15 +31,17 @@ onMounted(async () => {
 
 <template>
   <v-app theme="dark">
-    <v-navigation-drawer v-model="drawer" app>
-    </v-navigation-drawer>
     <v-app-bar app>
-      <template v-slot:prepend>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      </template>
+      <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-app-bar-title>Hybrid Explorer {{ store.lastIndexedBlock }} / {{ store.lastBlock }}</v-app-bar-title>
     </v-app-bar>
     <v-main>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-select
+        label="Select"
+          :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+      ></v-select>
+    </v-navigation-drawer>
         <v-alert v-if="!store.connected" type="error" variant="outlined" class="mb-4">Not connected to indexer.</v-alert>
         <router-view v-else></router-view>
     </v-main>

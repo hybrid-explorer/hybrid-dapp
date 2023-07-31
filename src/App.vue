@@ -41,6 +41,8 @@ async function init() {
     $indexerClient.init($polkadotClient),
   ]);
 
+  $indexerClient.getVariants();
+
   setInterval(() => {
     $indexerClient.getStatus();
   }, 1000);

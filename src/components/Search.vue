@@ -19,10 +19,6 @@ let router = useRouter();
 
 let $indexerClient: any = inject('$indexerClient');
 
-onMounted(async () => {
-  $indexerClient.getVariants(); 
-});
-
 const searchKey = ref("account_id");
 const accountId = ref("");
 const accountIndex = ref("");

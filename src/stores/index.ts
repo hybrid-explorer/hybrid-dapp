@@ -11,6 +11,7 @@ interface Event {
 
 export const main = defineStore('main', {
   state: () => ({
+    chain: 'polkadot',
     connected: false,
     variants: [] as any[],
     events: [] as any[],
@@ -20,6 +21,9 @@ export const main = defineStore('main', {
   getters: {
   },
   actions: {
+    setChain(chain: string) {
+      this.chain = chain;
+    },
     setConnected(connected: boolean) {
       this.connected = connected;
     },

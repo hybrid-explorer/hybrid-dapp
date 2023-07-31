@@ -8,6 +8,9 @@ import {
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { main } from '../stores/index'
 
+import chainsJson from '../lib/chains.json';
+const chains: any = chainsJson;
+
 export default class PolkadotClient {
   api: any;
   store: any;
@@ -15,7 +18,7 @@ export default class PolkadotClient {
   async init() {
     this.store = main();
 
-    let polkadotEndpoint = 'wss://rpc.polkadot.io:443';
+    let polkadotEndpoint = chains[this.store.chain].node;
     let wsProvider = new WsProvider(polkadotEndpoint);
     this.api = await ApiPromise.create({
       provider: wsProvider,

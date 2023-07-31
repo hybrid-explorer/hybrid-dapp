@@ -16,8 +16,27 @@ const store = main();
 let $polkadotClient: any = inject('$polkadotClient');
 let $indexerClient: any = inject('$indexerClient');
 
-onMounted(async () => {
-  let results = await Promise.all([
+const chainItems = ref([
+  {
+    title: 'Polkadot',
+    value: 'polkadot',
+  },
+  {
+    title: 'Kusama',
+    value: 'kusama',
+  },
+  {
+    title: 'Rococo',
+    value: 'rococo',
+  },
+  {
+    title: 'Westend',
+    value: 'westend',
+  },
+]);
+
+async function init() {
+  await Promise.all([
     $polkadotClient.init(),
     $indexerClient.init($polkadotClient),
   ]);
@@ -25,8 +44,16 @@ onMounted(async () => {
   setInterval(() => {
     $indexerClient.getStatus();
   }, 1000);
+};
+
+onMounted(async () => {
+  await init();
+
+  setInterval(() => {
+    $indexerClient.getStatus();
+  }, 1000);
 });
- 
+
 </script>
 
 <template>
@@ -38,8 +65,10 @@ onMounted(async () => {
     <v-main>
     <v-navigation-drawer v-model="drawer" app>
       <v-select
-        label="Select"
-          :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+        label="Chain"
+          v-model="store.chain"
+          @update:modelValue="init"
+          :items="chainItems"
       ></v-select>
     </v-navigation-drawer>
         <v-alert v-if="!store.connected" type="error" variant="outlined" class="mb-4">Not connected to indexer.</v-alert>

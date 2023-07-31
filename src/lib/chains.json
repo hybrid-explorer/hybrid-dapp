@@ -1,0 +1,22 @@
+{
+  "polkadot": {
+    "name": "Polkadot",
+    "indexer": "ws://127.0.0.1:8172",
+    "node": "wss://rpc.polkadot.io:443"
+  },
+  "kusama": {
+    "name": "Kusama",
+    "indexer": "ws://127.0.0.1:8173",
+    "node": "wss://kusama-rpc.polkadot.io:443"
+  },
+  "rococo": {
+    "name": "Rococo",
+    "indexer": "ws://127.0.0.1:8174",
+    "node": "wss://rococo-rpc.polkadot.io:443"
+  },
+  "westend": {
+    "name": "Westend",
+    "indexer": "ws://127.0.0.1:8175",
+    "node": "wss://westend-rpc.polkadot.io:443"
+  }
+}

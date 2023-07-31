@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "watch": "watchexec -cN -w src \"pnpm vue-tsc --noEmit\"",
+    "watch": "vue-tsc --noEmit -w",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },

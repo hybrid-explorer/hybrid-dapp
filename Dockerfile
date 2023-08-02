@@ -7,6 +7,6 @@ COPY . .
 RUN pnpm install
 RUN pnpm build
 
-EXPOSE 8173
+EXPOSE 8272
 
-CMD pnpm preview --host 0.0.0.0 --port 8173
+CMD pnpm preview --host 0.0.0.0 --port 8272

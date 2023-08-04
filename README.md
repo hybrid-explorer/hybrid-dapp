@@ -69,7 +69,7 @@ docker build .
 Then run the image with the correct port mapping:
 
 ```
-docker run --rm -p 8173:8173 [image_hash]
+docker run --rm -p 8272:8272 [image_hash]
 ```
 
-Go to http://127.0.0.1:8173/
+Go to http://127.0.0.1:8272/

@@ -27,7 +27,7 @@ Because Substrate is a federated platform, it will be possible browse multiple c
 
 The Hybrid dapp is a [Vue](https://vuejs.org/) dapp, using the [Vuetify](https://vuetifyjs.com) framework for the user interface. [pnpm](https://pnpm.io/) and [Vite](https://vitejs.dev/) are used for the build.
 
-It will use [@polkadot/api](https://github.com/polkadot-js/api) to retrieve data from the chain, either via the Substrate Connect light client, or via an RPC connection to a full archival node. The [Hybrid Indexer](https://github.com/hybrid-explorer/hybrid-indexer) will be queried via WSS.
+It uses [@polkadot/api](https://github.com/polkadot-js/api) to retrieve data from the chain. The [Hybrid Indexer](https://github.com/hybrid-explorer/hybrid-indexer) is queried via WSS.
 
 ### Tutorial
 

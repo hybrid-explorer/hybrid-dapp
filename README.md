@@ -58,7 +58,7 @@ Events with the key will be appear.
 
 ### Docker
 
-First, run the dockerfile for [hybrid-indexer](https://github.com/hybrid-explorer/hybrid-indexer).
+Follow the [instructions](https://github.com/hybrid-explorer/polkadot-indexer/blob/main/README.md#docker) in polkadot-indexer to run a docker image in a separate console tab for each of polkadot, kusama, rococo & westend.
 
 Run the following command to build the image:
 

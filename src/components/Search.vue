@@ -47,6 +47,14 @@ const palletEvents = computed(() => {
   }
 })
 
+watch(
+  () => store.variants, 
+  () => {
+    palletIndex.value = 0;
+    variantIndex.value = 0;
+  }
+)
+
 watch(palletIndex, () => {
   variantIndex.value = 0;
 })

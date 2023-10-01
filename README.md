@@ -66,7 +66,7 @@ Run the following command to build the image:
 docker build .
 ```
 
-Then run the image with the correct port mapping:
+Then run the image (replace `[image_hash]` with the hash of the docker image displayed at the end of the build):
 
 ```
 docker run --rm -p 8272:8272 [image_hash]
